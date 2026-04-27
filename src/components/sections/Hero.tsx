@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
+import logo from "@/assets/logo.png";
 
 function scrollTo(id: string) {
   document.querySelector(id)?.scrollIntoView({ behavior: "smooth" });
@@ -25,6 +26,15 @@ export function Hero() {
       </div>
 
       <div className="relative container mx-auto px-6 pt-32 pb-20">
+        <div className="flex justify-center mb-10 animate-fade-up">
+          <img
+            src={logo}
+            alt="KENKO Beautycare logo"
+            width={400}
+            height={267}
+            className="w-44 sm:w-56 md:w-64 h-auto drop-shadow-sm"
+          />
+        </div>
         <div className="max-w-2xl animate-fade-up">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/70 backdrop-blur-md border border-[var(--rose-gold)]/30 mb-8">
             <Sparkles size={14} className="text-[var(--rose-gold-deep)]" />
