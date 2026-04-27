@@ -37,7 +37,17 @@ export function Footer() {
               <li>
                 <a href="tel:+302521020400" className="flex items-start gap-3 hover:text-background transition-colors">
                   <Phone size={16} className="mt-0.5 shrink-0 text-[var(--rose-gold)]" />
-                  2521 020400
+                  <span>
+                    2521 020400 <span className="text-background/50">(Σταθερό)</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a href="tel:+306988254842" className="flex items-start gap-3 hover:text-background transition-colors">
+                  <Phone size={16} className="mt-0.5 shrink-0 text-[var(--rose-gold)]" />
+                  <span>
+                    6988 254842 <span className="text-background/50">(Κινητό)</span>
+                  </span>
                 </a>
               </li>
             </ul>
