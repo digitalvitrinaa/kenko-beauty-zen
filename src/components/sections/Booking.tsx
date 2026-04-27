@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { el } from "date-fns/locale";
-import { CalendarIcon, MessageCircle, Phone } from "lucide-react";
+import { CalendarIcon, MessageCircle, Phone, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,8 +19,10 @@ import {
 import { cn } from "@/lib/utils";
 import { serviceCategories } from "./Services";
 
-const PHONE = "302521020400";
-const PHONE_DISPLAY = "2521 020400";
+const MOBILE = "306988254842";
+const MOBILE_DISPLAY = "6988 254842";
+const LANDLINE = "302521020400";
+const LANDLINE_DISPLAY = "2521 020400";
 
 const times: string[] = [];
 for (let h = 10; h <= 20; h++) {
@@ -51,7 +53,19 @@ export function Booking() {
       `📅 Ημέρα: ${dateStr}%0A` +
       `⏰ Ώρα: ${time}%0A%0A` +
       `Ευχαριστώ!`;
-    window.open(`https://wa.me/${PHONE}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${MOBILE}?text=${msg}`, "_blank");
+  };
+
+  const buildSmsBody = () => {
+    const dateStr = date ? format(date, "EEEE d MMMM yyyy", { locale: el }) : "";
+    return encodeURIComponent(
+      `Γεια σας! Θα ήθελα να κλείσω ραντεβού στο KENKO Beautycare.\n\n` +
+      `Ονοματεπώνυμο: ${name}\n` +
+      `Τηλέφωνο: ${phone}\n` +
+      `Υπηρεσία: ${service}\n` +
+      `Ημέρα: ${dateStr}\n` +
+      `Ώρα: ${time}\n\nΕυχαριστώ!`,
+    );
   };
 
   return (
@@ -75,7 +89,7 @@ export function Booking() {
 
             <div className="mt-8 space-y-4">
               <a
-                href={`tel:+${PHONE}`}
+                href={`tel:+${LANDLINE}`}
                 className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border/50 hover:border-[var(--rose-gold)]/50 transition-all duration-300 hover-lift"
               >
                 <div className="w-11 h-11 rounded-full bg-[var(--blush)] flex items-center justify-center text-[var(--rose-gold-deep)]">
@@ -85,11 +99,12 @@ export function Booking() {
                   <div className="text-xs tracking-widest uppercase text-foreground/50">
                     Καλέστε μας
                   </div>
-                  <div className="font-serif text-xl text-foreground">{PHONE_DISPLAY}</div>
+                  <div className="font-serif text-xl text-foreground">{LANDLINE_DISPLAY}</div>
+                  <div className="text-xs text-foreground/50 mt-0.5">Κιν. {MOBILE_DISPLAY}</div>
                 </div>
               </a>
               <a
-                href={`https://wa.me/${PHONE}`}
+                href={`https://wa.me/${MOBILE}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-4 p-4 rounded-xl bg-card border border-border/50 hover:border-[var(--whatsapp)]/50 transition-all duration-300 hover-lift"
@@ -220,12 +235,27 @@ export function Booking() {
               * Ωράριο λειτουργίας: Δευτέρα — Παρασκευή, 10:00 – 20:00
             </p>
 
-            <Button type="submit" variant="whatsapp" size="xl" className="w-full">
-              <MessageCircle size={20} />
-              Αποστολή Αιτήματος μέσω WhatsApp / SMS
-            </Button>
+            <div className="space-y-3">
+              <Button
+                type="button"
+                variant="luxeOutline"
+                size="xl"
+                className="w-full"
+                asChild
+              >
+                <a href={`sms:+${MOBILE}?body=${buildSmsBody()}`}>
+                  <MessageSquare size={20} />
+                  Αποστολή με SMS
+                </a>
+              </Button>
+              <Button type="submit" variant="whatsapp" size="xl" className="w-full">
+                <MessageCircle size={20} />
+                Αποστολή με WhatsApp
+              </Button>
+            </div>
             <p className="text-center text-xs text-foreground/55">
-              Συνδέεται απευθείας με το <span className="text-foreground/80 font-medium">{PHONE_DISPLAY}</span>
+              Συνδέεται απευθείας με το κινητό{" "}
+              <span className="text-foreground/80 font-medium">{MOBILE_DISPLAY}</span>
             </p>
           </form>
         </div>
