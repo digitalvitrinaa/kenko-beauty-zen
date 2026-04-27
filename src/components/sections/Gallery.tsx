@@ -6,12 +6,12 @@ import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
 
 const items = [
-  { src: g2, alt: "Πολυτελής χώρος του salon", h: "h-72 md:h-96" },
-  { src: g1, alt: "Premium nail products", h: "h-96 md:h-[28rem]" },
+  { src: g1, alt: "Almond shape nude manicure", h: "h-72 md:h-96" },
+  { src: g2, alt: "French manicure με ασημί glitter", h: "h-96 md:h-[28rem]" },
   { src: g3, alt: "Lash lift αποτέλεσμα", h: "h-80 md:h-[26rem]" },
-  { src: g6, alt: "Spa pedicure με τριαντάφυλλα", h: "h-96 md:h-[30rem]" },
-  { src: g4, alt: "Εργαλεία rose gold manicure", h: "h-72 md:h-80" },
-  { src: g5, alt: "Χώρος ευεξίας με cryosauna", h: "h-80 md:h-[24rem]" },
+  { src: g6, alt: "Babyboomer ombré manicure", h: "h-96 md:h-[30rem]" },
+  { src: g4, alt: "Επαγγελματικό pedicure", h: "h-72 md:h-80" },
+  { src: g5, alt: "Solarium με premium προϊόντα μαυρίσματος", h: "h-80 md:h-[24rem]" },
 ];
 
 export function Gallery() {
