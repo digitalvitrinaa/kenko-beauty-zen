@@ -87,7 +87,7 @@ export function Footer() {
 
         <div className="pt-8 border-t border-background/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-background/50">
           <p>© {new Date().getFullYear()} KENKO Beautycare. Με επιφύλαξη παντός δικαιώματος.</p>
-          <p className="tracking-widest uppercase">Crafted with ♡ in Drama</p>
+          <p className="text-[10px] tracking-wider text-background/40">Designed by Digital Vitrina</p>
         </div>
       </div>
     </footer>
