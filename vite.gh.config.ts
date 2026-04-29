@@ -7,7 +7,7 @@ import path from "node:path";
 // Standalone static SPA build for GitHub Pages.
 // Outputs a clean static site to ./dist with base path /kenko__beauty/.
 export default defineConfig({
-  base: "/kenko__beauty/",
+  base: "/KENKO-BEAUTY-ZEN/",
   plugins: [react(), tailwindcss(), tsconfigPaths()],
   resolve: {
     alias: {
