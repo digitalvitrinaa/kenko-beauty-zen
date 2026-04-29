@@ -311,7 +311,7 @@ export function Booking() {
                 asChild
               >
                 <a
-                  href="https://www.instagram.com/kenko__beauty/"
+                  href="https://www.instagram.com/kenko_beauty/"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
