@@ -57,7 +57,7 @@ export function Services() {
           <div className="divider-ornament text-xs tracking-[0.4em] uppercase mb-5">
             Τιμοκατάλογος
           </div>
-          <h2 className="font-serif text-4xl md:text-6xl text-foreground text-balance">
+          <h2 className="font-serif text-3xl md:text-6xl text-foreground text-balance animate-fade-up">
             Υπηρεσίες <em className="text-gradient-rose not-italic">σχεδιασμένες</em> για εσάς
           </h2>
           <p className="mt-6 text-foreground/65 leading-relaxed">
@@ -66,39 +66,39 @@ export function Services() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 sm:gap-6 lg:gap-10 max-w-6xl mx-auto">
           {serviceCategories.map((cat) => {
             const Icon = cat.icon;
             return (
               <div
                 key={cat.title}
-                className="bg-card rounded-2xl p-8 md:p-10 shadow-soft hover-lift border border-border/40"
+                className="glass rounded-2xl p-4 sm:p-8 md:p-10 hover-lift"
               >
-                <div className="flex items-start gap-5 pb-6 border-b border-border/60">
-                  <div className="shrink-0 w-14 h-14 rounded-full bg-gradient-rose flex items-center justify-center text-white shadow-rose">
-                    <Icon size={22} strokeWidth={1.5} />
+                <div className="flex items-start gap-3 sm:gap-5 pb-4 sm:pb-6 border-b border-border/60">
+                  <div className="shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-gradient-rose flex items-center justify-center text-white shadow-rose">
+                    <Icon size={18} strokeWidth={1.5} />
                   </div>
                   <div>
-                    <h3 className="font-serif text-2xl md:text-3xl text-foreground">
+                    <h3 className="font-serif text-lg sm:text-2xl md:text-3xl text-foreground leading-tight">
                       {cat.title}
                     </h3>
-                    <p className="text-xs tracking-[0.3em] uppercase text-[var(--rose-gold-deep)] mt-1">
+                    <p className="text-[9px] sm:text-xs tracking-[0.3em] uppercase text-[var(--rose-gold-deep)] mt-1">
                       {cat.subtitle}
                     </p>
                   </div>
                 </div>
-                <ul className="mt-6 space-y-4">
+                <ul className="mt-4 sm:mt-6 space-y-2.5 sm:space-y-4">
                   {cat.items.map((it) => (
                     <li
                       key={it.name}
-                      className="flex items-baseline gap-3 group"
+                      className="flex flex-wrap sm:flex-nowrap items-baseline gap-2 sm:gap-3 group text-sm sm:text-base"
                     >
                       <span className="text-foreground/85">{it.name}</span>
-                      <span className="flex-1 border-b border-dotted border-border/80 translate-y-[-4px]" />
-                      <span className="text-xs text-muted-foreground tabular-nums">
+                      <span className="hidden sm:block flex-1 border-b border-dotted border-border/80 translate-y-[-4px]" />
+                      <span className="hidden sm:inline text-xs text-muted-foreground tabular-nums">
                         {it.duration}
                       </span>
-                      <span className="font-serif text-lg text-[var(--rose-gold-deep)] tabular-nums min-w-[3.5rem] text-right">
+                      <span className="ml-auto font-serif text-base sm:text-lg text-[var(--rose-gold-deep)] tabular-nums sm:min-w-[3.5rem] text-right">
                         {it.price}
                       </span>
                     </li>
