@@ -37,20 +37,9 @@ export function Header() {
           : "bg-transparent py-5",
       )}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between relative">
-        <button
-          onClick={() => scrollTo("#top")}
-          className="flex items-center leading-none md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:z-10"
-          aria-label="KENKO Beautycare"
-        >
-          <img
-            src={logo}
-            alt="KENKO Beautycare"
-            className="h-12 md:h-14 w-auto"
-          />
-        </button>
-
-        <nav className="hidden md:flex items-center gap-10">
+      <div className="container mx-auto px-6 flex items-center justify-between md:justify-center gap-4">
+        {/* Left: navigation (desktop only) */}
+        <nav className="hidden md:flex flex-1 items-center justify-start gap-8">
           {links.map((l) => (
             <button
               key={l.href}
@@ -62,7 +51,21 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        {/* Center: logo (centered on desktop, left on mobile) */}
+        <button
+          onClick={() => scrollTo("#top")}
+          className="flex items-center leading-none shrink-0"
+          aria-label="KENKO Beautycare"
+        >
+          <img
+            src={logo}
+            alt="KENKO Beautycare"
+            className="h-12 md:h-14 w-auto"
+          />
+        </button>
+
+        {/* Right: CTA + mobile menu trigger */}
+        <div className="flex items-center gap-3 md:flex-1 md:justify-end">
           <Button
             variant="luxe"
             size="pill"
