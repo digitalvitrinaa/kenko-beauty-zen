@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { serviceCategories } from "./Services";
+import { toast } from "sonner";
 
 const MOBILE = "306988254842";
 const MOBILE_DISPLAY = "6988 254842";
@@ -34,6 +35,14 @@ export function Booking() {
   const [services, setServices] = useState<string[]>([]);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");
+  const [attempted, setAttempted] = useState(false);
+
+  const nameError = !name.trim();
+  const phoneError = !phone.trim();
+  const servicesError = services.length === 0;
+  const dateError = !date;
+  const timeError = !time;
+  const isInvalid = nameError || phoneError || servicesError || dateError || timeError;
 
   const isWeekend = (d: Date) => {
     const day = d.getDay();
@@ -46,36 +55,41 @@ export function Booking() {
     );
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const dateStr = date ? format(date, "EEEE d MMMM yyyy", { locale: el }) : "";
-    const servicesStr = services.length
-      ? services.map((s) => `• ${s}`).join("%0A")
-      : "—";
-    const msg =
-      `Γεια σας! Θα ήθελα να κλείσω ραντεβού στο KENKO Beautycare.%0A%0A` +
-      `👤 Ονοματεπώνυμο: ${name}%0A` +
-      `📞 Τηλέφωνο: ${phone}%0A` +
-      `💅 Υπηρεσίες:%0A${servicesStr}%0A` +
-      `📅 Ημέρα: ${dateStr}%0A` +
-      `⏰ Ώρα: ${time}%0A%0A` +
-      `Ευχαριστώ!`;
-    window.open(`https://wa.me/${MOBILE}?text=${msg}`, "_blank");
+  const validate = () => {
+    setAttempted(true);
+    if (isInvalid) {
+      toast.error("Παρακαλώ συμπληρώστε όλα τα πεδία πριν την αποστολή.");
+      return false;
+    }
+    return true;
   };
 
-  const buildSmsBody = () => {
-    const dateStr = date ? format(date, "EEEE d MMMM yyyy", { locale: el }) : "";
-    const servicesStr = services.length
-      ? services.map((s) => `- ${s}`).join("\n")
-      : "—";
-    return encodeURIComponent(
-      `Γεια σας! Θα ήθελα να κλείσω ραντεβού στο KENKO Beautycare.\n\n` +
-      `Ονοματεπώνυμο: ${name}\n` +
+  const buildMessage = () => {
+    const dateTimeStr = date
+      ? `${format(date, "EEEE d MMMM yyyy", { locale: el })} ${time}`
+      : "";
+    const servicesStr = services.map((s) => s.split(" — ")[1] ?? s).join(", ");
+    return (
+      `Καλησπέρα, θα ήθελα να κλείσω ένα ραντεβού.\n` +
+      `Όνομα: ${name}\n` +
       `Τηλέφωνο: ${phone}\n` +
-      `Υπηρεσίες:\n${servicesStr}\n` +
-      `Ημέρα: ${dateStr}\n` +
-      `Ώρα: ${time}\n\nΕυχαριστώ!`,
+      `Υπηρεσίες: ${servicesStr}\n` +
+      `Υπάρχει διαθέσιμο στις: ${dateTimeStr} ;`
     );
+  };
+
+  const handleWhatsApp = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+    const url = `https://wa.me/${MOBILE}?text=${encodeURIComponent(buildMessage())}`;
+    window.open(url, "_blank");
+  };
+
+  const handleSms = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+    const url = `sms:+${MOBILE}?body=${encodeURIComponent(buildMessage())}`;
+    window.location.href = url;
   };
 
   return (
@@ -133,7 +147,8 @@ export function Booking() {
           </div>
 
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleWhatsApp}
+            noValidate
             className="lg:col-span-3 glass-rose rounded-3xl p-6 sm:p-8 md:p-12 space-y-6"
           >
             <div className="grid sm:grid-cols-2 gap-5">
@@ -143,11 +158,13 @@ export function Booking() {
                 </Label>
                 <Input
                   id="name"
-                  required
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="π.χ. Μαρία Παπαδοπούλου"
-                  className="h-12 rounded-lg bg-background"
+                  className={cn(
+                    "h-12 rounded-lg bg-background",
+                    attempted && nameError && "border-destructive focus-visible:ring-destructive",
+                  )}
                 />
               </div>
               <div className="space-y-2">
@@ -157,11 +174,13 @@ export function Booking() {
                 <Input
                   id="phone"
                   type="tel"
-                  required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="69XXXXXXXX"
-                  className="h-12 rounded-lg bg-background"
+                  className={cn(
+                    "h-12 rounded-lg bg-background",
+                    attempted && phoneError && "border-destructive focus-visible:ring-destructive",
+                  )}
                 />
               </div>
             </div>
@@ -175,7 +194,10 @@ export function Booking() {
                   <Button
                     type="button"
                     variant="outline"
-                    className="h-12 w-full justify-between text-left font-normal rounded-lg bg-background"
+                    className={cn(
+                      "h-12 w-full justify-between text-left font-normal rounded-lg bg-background",
+                      attempted && servicesError && "border-destructive",
+                    )}
                   >
                     <span className="truncate text-foreground/80">
                       {services.length === 0
@@ -245,6 +267,7 @@ export function Booking() {
                       className={cn(
                         "h-12 w-full justify-start text-left font-normal rounded-lg bg-background",
                         !date && "text-muted-foreground",
+                        attempted && dateError && "border-destructive",
                       )}
                     >
                       <CalendarIcon className="mr-2 h-4 w-4 text-[var(--rose-gold-deep)]" />
@@ -269,8 +292,11 @@ export function Booking() {
                 <Label className="text-xs tracking-widest uppercase text-foreground/70">
                   Επιθυμητή Ώρα
                 </Label>
-                <Select value={time} onValueChange={setTime} required>
-                  <SelectTrigger className="h-12 rounded-lg bg-background">
+                <Select value={time} onValueChange={setTime}>
+                  <SelectTrigger className={cn(
+                    "h-12 rounded-lg bg-background",
+                    attempted && timeError && "border-destructive",
+                  )}>
                     <SelectValue placeholder="10:00 — 20:00" />
                   </SelectTrigger>
                   <SelectContent>
@@ -292,12 +318,10 @@ export function Booking() {
                 variant="luxeOutline"
                 size="xl"
                 className="w-full"
-                asChild
+                onClick={handleSms}
               >
-                <a href={`sms:+${MOBILE}?body=${buildSmsBody()}`}>
-                  <MessageSquare size={20} />
-                  Αποστολή με SMS
-                </a>
+                <MessageSquare size={20} />
+                Αποστολή με SMS
               </Button>
               <Button type="submit" variant="whatsapp" size="xl" className="w-full">
                 <MessageCircle size={20} />
