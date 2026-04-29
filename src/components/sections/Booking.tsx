@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { el } from "date-fns/locale";
-import { CalendarIcon, MessageCircle, Phone, MessageSquare } from "lucide-react";
+import { CalendarIcon, MessageCircle, Phone, MessageSquare, Instagram, ChevronDown, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,9 +10,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -33,7 +31,7 @@ for (let h = 10; h <= 20; h++) {
 export function Booking() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [service, setService] = useState("");
+  const [services, setServices] = useState<string[]>([]);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState("");
 
@@ -42,14 +40,23 @@ export function Booking() {
     return day === 0 || day === 6;
   };
 
+  const toggleService = (key: string) => {
+    setServices((prev) =>
+      prev.includes(key) ? prev.filter((s) => s !== key) : [...prev, key],
+    );
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const dateStr = date ? format(date, "EEEE d MMMM yyyy", { locale: el }) : "";
+    const servicesStr = services.length
+      ? services.map((s) => `• ${s}`).join("%0A")
+      : "—";
     const msg =
       `Γεια σας! Θα ήθελα να κλείσω ραντεβού στο KENKO Beautycare.%0A%0A` +
       `👤 Ονοματεπώνυμο: ${name}%0A` +
       `📞 Τηλέφωνο: ${phone}%0A` +
-      `💅 Υπηρεσία: ${service}%0A` +
+      `💅 Υπηρεσίες:%0A${servicesStr}%0A` +
       `📅 Ημέρα: ${dateStr}%0A` +
       `⏰ Ώρα: ${time}%0A%0A` +
       `Ευχαριστώ!`;
@@ -58,11 +65,14 @@ export function Booking() {
 
   const buildSmsBody = () => {
     const dateStr = date ? format(date, "EEEE d MMMM yyyy", { locale: el }) : "";
+    const servicesStr = services.length
+      ? services.map((s) => `- ${s}`).join("\n")
+      : "—";
     return encodeURIComponent(
       `Γεια σας! Θα ήθελα να κλείσω ραντεβού στο KENKO Beautycare.\n\n` +
       `Ονοματεπώνυμο: ${name}\n` +
       `Τηλέφωνο: ${phone}\n` +
-      `Υπηρεσία: ${service}\n` +
+      `Υπηρεσίες:\n${servicesStr}\n` +
       `Ημέρα: ${dateStr}\n` +
       `Ώρα: ${time}\n\nΕυχαριστώ!`,
     );
@@ -79,7 +89,7 @@ export function Booking() {
             <div className="divider-ornament text-xs tracking-[0.4em] uppercase mb-5 justify-start [&::before]:hidden">
               Ραντεβού
             </div>
-            <h2 className="font-serif text-4xl md:text-5xl text-foreground text-balance leading-tight">
+            <h2 className="font-serif text-4xl md:text-5xl text-foreground text-balance leading-tight animate-fade-up">
               Κλείστε το <em className="text-gradient-rose not-italic">Ραντεβού</em> σας
             </h2>
             <p className="mt-5 text-foreground/65 leading-relaxed">
@@ -124,7 +134,7 @@ export function Booking() {
 
           <form
             onSubmit={handleSubmit}
-            className="lg:col-span-3 bg-card rounded-3xl p-8 md:p-12 shadow-elegant border border-border/40 space-y-6"
+            className="lg:col-span-3 glass-rose rounded-3xl p-6 sm:p-8 md:p-12 space-y-6"
           >
             <div className="grid sm:grid-cols-2 gap-5">
               <div className="space-y-2">
@@ -158,27 +168,68 @@ export function Booking() {
 
             <div className="space-y-2">
               <Label className="text-xs tracking-widest uppercase text-foreground/70">
-                Επιλογή Υπηρεσίας
+                Επιλογή Υπηρεσιών (μία ή περισσότερες)
               </Label>
-              <Select value={service} onValueChange={setService} required>
-                <SelectTrigger className="h-12 rounded-lg bg-background">
-                  <SelectValue placeholder="Επιλέξτε υπηρεσία..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {serviceCategories.map((cat) => (
-                    <SelectGroup key={cat.title}>
-                      <SelectLabel className="text-[var(--rose-gold-deep)]">
-                        {cat.title}
-                      </SelectLabel>
-                      {cat.items.map((it) => (
-                        <SelectItem key={it.name} value={`${cat.title} — ${it.name}`}>
-                          {it.name} • {it.price}
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="h-12 w-full justify-between text-left font-normal rounded-lg bg-background"
+                  >
+                    <span className="truncate text-foreground/80">
+                      {services.length === 0
+                        ? "Επιλέξτε μία ή περισσότερες υπηρεσίες..."
+                        : `${services.length} επιλεγμένες`}
+                    </span>
+                    <ChevronDown className="h-4 w-4 opacity-60 shrink-0" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 max-h-80 overflow-y-auto" align="start">
+                  <div className="p-2">
+                    {serviceCategories.map((cat) => (
+                      <div key={cat.title} className="mb-2">
+                        <div className="px-2 py-1.5 text-[10px] tracking-[0.25em] uppercase text-[var(--rose-gold-deep)]">
+                          {cat.title}
+                        </div>
+                        {cat.items.map((it) => {
+                          const key = `${cat.title} — ${it.name}`;
+                          const checked = services.includes(key);
+                          return (
+                            <button
+                              type="button"
+                              key={key}
+                              onClick={() => toggleService(key)}
+                              className={cn(
+                                "w-full flex items-center gap-3 px-2 py-2 rounded-md text-sm text-left transition-colors",
+                                checked ? "bg-[var(--blush)]" : "hover:bg-muted",
+                              )}
+                            >
+                              <span className={cn(
+                                "w-4 h-4 rounded border flex items-center justify-center shrink-0",
+                                checked ? "bg-[var(--rose-gold-deep)] border-[var(--rose-gold-deep)] text-white" : "border-border bg-background",
+                              )}>
+                                {checked && <Check size={12} strokeWidth={3} />}
+                              </span>
+                              <span className="flex-1">{it.name}</span>
+                              <span className="text-xs text-[var(--rose-gold-deep)] tabular-nums">{it.price}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </PopoverContent>
+              </Popover>
+              {services.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-2">
+                  {services.map((s) => (
+                    <span key={s} className="text-[11px] px-2 py-1 rounded-full bg-[var(--blush)] text-foreground/80">
+                      {s.split(" — ")[1] ?? s}
+                    </span>
                   ))}
-                </SelectContent>
-              </Select>
+                </div>
+              )}
             </div>
 
             <div className="grid sm:grid-cols-2 gap-5">
@@ -251,6 +302,22 @@ export function Booking() {
               <Button type="submit" variant="whatsapp" size="xl" className="w-full">
                 <MessageCircle size={20} />
                 Αποστολή με WhatsApp
+              </Button>
+              <Button
+                type="button"
+                variant="luxe"
+                size="xl"
+                className="w-full"
+                asChild
+              >
+                <a
+                  href="https://www.instagram.com/kenko__beauty/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Instagram size={20} />
+                  Find Us On Instagram
+                </a>
               </Button>
             </div>
             <p className="text-center text-xs text-foreground/55">
