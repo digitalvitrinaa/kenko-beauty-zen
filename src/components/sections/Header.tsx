@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import logo from "@/assets/logo.png";
 
 const links = [
   { href: "#services", label: "Υπηρεσίες" },
@@ -39,15 +40,14 @@ export function Header() {
       <div className="container mx-auto px-6 flex items-center justify-between">
         <button
           onClick={() => scrollTo("#top")}
-          className="flex flex-col items-start leading-none"
+          className="flex items-center leading-none"
           aria-label="KENKO Beautycare"
         >
-          <span className="font-serif text-2xl md:text-3xl tracking-[0.18em] text-foreground">
-            KENKO
-          </span>
-          <span className="text-[10px] md:text-xs tracking-[0.45em] uppercase text-[var(--rose-gold-deep)] mt-0.5">
-            Beautycare
-          </span>
+          <img
+            src={logo}
+            alt="KENKO Beautycare"
+            className="h-12 md:h-14 w-auto"
+          />
         </button>
 
         <nav className="hidden md:flex items-center gap-10">
