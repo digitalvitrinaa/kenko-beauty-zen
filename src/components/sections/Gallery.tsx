@@ -6,12 +6,12 @@ import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
 
 const items = [
-  { src: g1, alt: "Almond shape nude manicure", h: "h-72 md:h-96" },
-  { src: g2, alt: "French manicure με ασημί glitter", h: "h-96 md:h-[28rem]" },
-  { src: g3, alt: "Lash lift αποτέλεσμα", h: "h-80 md:h-[26rem]" },
-  { src: g6, alt: "Babyboomer ombré manicure", h: "h-96 md:h-[30rem]" },
-  { src: g4, alt: "Επαγγελματικό pedicure", h: "h-72 md:h-80" },
-  { src: g5, alt: "Solarium με premium προϊόντα μαυρίσματος", h: "h-80 md:h-[24rem]" },
+  { src: g1, alt: "Almond shape nude manicure", h: "h-40 sm:h-72 md:h-96" },
+  { src: g2, alt: "French manicure με ασημί glitter", h: "h-52 sm:h-96 md:h-[28rem]" },
+  { src: g3, alt: "Lash lift αποτέλεσμα", h: "h-44 sm:h-80 md:h-[26rem]" },
+  { src: g6, alt: "Babyboomer ombré manicure", h: "h-52 sm:h-96 md:h-[30rem]" },
+  { src: g4, alt: "Επαγγελματικό pedicure", h: "h-40 sm:h-72 md:h-80" },
+  { src: g5, alt: "Solarium με premium προϊόντα μαυρίσματος", h: "h-44 sm:h-80 md:h-[24rem]" },
 ];
 
 export function Gallery() {
@@ -22,7 +22,7 @@ export function Gallery() {
           <div className="divider-ornament text-xs tracking-[0.4em] uppercase mb-5">
             Gallery
           </div>
-          <h2 className="font-serif text-4xl md:text-6xl text-foreground text-balance">
+          <h2 className="font-serif text-3xl md:text-6xl text-foreground text-balance animate-fade-up">
             Ο <em className="text-gradient-rose not-italic">Χώρος</em> & Η Δουλειά μας
           </h2>
           <p className="mt-6 text-foreground/65 leading-relaxed">
@@ -30,11 +30,11 @@ export function Gallery() {
           </p>
         </div>
 
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 max-w-6xl mx-auto">
+        <div className="columns-2 sm:columns-2 lg:columns-3 gap-2 sm:gap-5 max-w-6xl mx-auto">
           {items.map((it, i) => (
             <div
               key={i}
-              className={`mb-5 break-inside-avoid image-zoom rounded-xl shadow-soft hover-lift ${it.h}`}
+              className={`mb-2 sm:mb-5 break-inside-avoid image-zoom rounded-xl shadow-soft hover-lift ${it.h}`}
             >
               <img
                 src={it.src}
