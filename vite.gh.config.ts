@@ -5,9 +5,9 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import path from "node:path";
 
 // Standalone static SPA build for GitHub Pages.
-// Outputs a clean static site to ./dist with base path /kenko__beauty/.
+// Outputs a clean static site to ./dist with base path /kenko-beauty-zen/.
 export default defineConfig({
-  base: "/KENKO-BEAUTY-ZEN/",
+  base: "/kenko-beauty-zen/",
   plugins: [react(), tailwindcss(), tsconfigPaths()],
   resolve: {
     alias: {
