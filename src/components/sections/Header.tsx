@@ -37,10 +37,10 @@ export function Header() {
           : "bg-transparent py-5",
       )}
     >
-      <div className="container mx-auto px-6 flex items-center justify-between">
+      <div className="container mx-auto px-6 flex items-center justify-between md:relative">
         <button
           onClick={() => scrollTo("#top")}
-          className="flex items-center leading-none"
+          className="flex items-center leading-none md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:z-10"
           aria-label="KENKO Beautycare"
         >
           <img
