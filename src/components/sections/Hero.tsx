@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
 import heroImg from "@/assets/hero.jpg";
 import logo from "@/assets/logo.png";
 
@@ -26,7 +25,7 @@ export function Hero() {
       </div>
 
       <div className="relative container mx-auto px-6 pt-32 pb-20">
-        <div className="flex justify-center md:justify-start mb-10 animate-fade-up">
+        <div className="flex justify-center mb-10 animate-fade-up">
           <img
             src={logo}
             alt="KENKO Beautycare logo"
@@ -36,8 +35,7 @@ export function Hero() {
           />
         </div>
         <div className="max-w-2xl animate-fade-up [animation-delay:120ms]">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/70 backdrop-blur-md border border-[var(--rose-gold)]/30 mb-8">
-            <Sparkles size={14} className="text-[var(--rose-gold-deep)]" />
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-background/70 backdrop-blur-md border border-[var(--rose-gold)]/30 mb-8">
             <span className="text-xs tracking-[0.3em] uppercase text-foreground/80">
               Premium Beauty • Δράμα
             </span>
